@@ -14,7 +14,7 @@ interface cartProps {
 
 const CartCheckOut: FC<cartProps> = ({ items }) => {
     return (
-        <div className="  w-72  h-screen p-2">
+        <div className="  w-sm lg:w-72  h-screen p-2">
             {items.map((item) => (
                 <div key={item.product.id} className="flex items-center">
 

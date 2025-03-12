@@ -15,13 +15,12 @@ interface ProductCardProps {
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
     const [isOpen, setIsOpen] = useState(false);
     const { weight, incrementWeight, decrementWeight } = useProductWeight(1000, product.metadata.increment);
-    const {addToCart}=useCart();
+    const { addToCart } = useCart();
 
     return (
         <>
             <div 
                 className="max-w-sm rounded-2xl overflow-hidden shadow-lg p-4 bg-white border border-gray-200 flex flex-col gap-4 transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer"
-                
             >
                 <div className="relative w-full h-56 mb-3 rounded-xl overflow-hidden">
                     <Image 
@@ -34,7 +33,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <p className="text-2xl font-bold"> {formatPrice((product.price * weight) )} </p>
+                    <p className="text-2xl font-bold"> {formatPrice((product.price * weight))} </p>
                     <h1 className="text-xl font-bold text-gray-800">{product.name}</h1>
                 </div>
                 <div className="flex items-center justify-between my-4">
@@ -57,7 +56,15 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             </div>
 
             <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                <div>
+                <div className="relative">
+                    {/* Close Button */}
+                    <button 
+                        onClick={() => setIsOpen(false)}
+                        className="absolute top-2 right-2 bg-white rounded-full p-1 hover:bg-gray-200"
+                    >
+                        x
+                    </button>
+
                     <Image 
                         src={product.imageUrl} 
                         alt={product.name}
@@ -106,10 +113,13 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     
                     <button 
                         className="flex justify-between px-6 py-4 bg-black text-white rounded-full hover:bg-gray-800 w-full"
-                        onClick={() => addToCart(product,weight)}
+                        onClick={() => {
+                            addToCart(product, weight);
+                            setIsOpen(false);
+                        }}
                     >
                         <p>To Cart</p>
-                        <p>{formatPrice((product.price * weight) )}</p>
+                        <p>{formatPrice((product.price * weight))}</p>
                     </button>
                 </div>
             </Modal>
